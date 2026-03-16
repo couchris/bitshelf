@@ -1,12 +1,25 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SupabaseService } from './supabase.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class App {
-  protected readonly title = signal('bitshelf');
+export class AppComponent implements OnInit {
+  games: any[] = [];
+
+  constructor(private supabaseService: SupabaseService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  async ngOnInit() {
+    this.games = await this.supabaseService.getGames();
+    console.log('Games in ngOnInit:', this.games);
+
+    this.cdr.detectChanges();
+  }
 }
