@@ -26,4 +26,20 @@ export class SupabaseService {
     if (error) throw error;
     return data as Game;
   }
+
+  async updateGame(id: number, changes: Partial<Game>): Promise<Game> {
+    const { data, error } = await this.supabase
+      .from('games')
+      .update(changes)
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return data as Game;
+  }
+
+  async deleteGame(id: number): Promise<void> {
+    const { error } = await this.supabase.from('games').delete().eq('id', id);
+    if (error) throw error;
+  }
 }
