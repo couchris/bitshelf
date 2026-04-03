@@ -9,8 +9,8 @@ export class SupabaseService {
 
   constructor() {
     this.supabase = createClient(
-      'https://mlyqzzgvhqhgzivfwchu.supabase.co', // Replace with your project URL
-      'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG'                 // Replace with your public anon key
+      'https://mlyqzzgvhqhgzivfwchu.supabase.co',
+      'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG'
     );
   }
 
