@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
+const SUPABASE_URL = 'https://mlyqzzgvhqhgzivfwchu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,10 +11,7 @@ export class SupabaseService {
   private supabase: SupabaseClient;
 
   constructor() {
-    this.supabase = createClient(
-      'https://mlyqzzgvhqhgzivfwchu.supabase.co',
-      'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG'
-    );
+    this.supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
 
   async getGames() {
