@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Game } from './models';
+import { Game, Platform } from './models';
 
 const SUPABASE_URL = 'https://mlyqzzgvhqhgzivfwchu.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG';
@@ -41,5 +41,31 @@ export class SupabaseService {
   async deleteGame(id: number): Promise<void> {
     const { error } = await this.supabase.from('games').delete().eq('id', id);
     if (error) throw error;
+  }
+
+  async getPlatforms(): Promise<Platform[]> {
+    const { data, error } = await this.supabase
+      .from('platforms')
+      .select('*');
+    if (error) throw error;
+    return data as Platform[];
+  }
+
+  async getOrCreatePlatform(platform: Omit<Platform, 'id'>): Promise<Platform> {
+    const { data: existing, error: fetchError } = await this.supabase
+      .from('platforms')
+      .select('*')
+      .eq('name', platform.name)
+      .maybeSingle();
+    if (fetchError) throw fetchError;
+    if (existing) return existing as Platform;
+
+    const { data: created, error: insertError } = await this.supabase
+      .from('platforms')
+      .insert([platform])
+      .select()
+      .single();
+    if (insertError) throw insertError;
+    return created as Platform;
   }
 }
