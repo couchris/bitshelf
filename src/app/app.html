@@ -17,7 +17,7 @@
   <div class="modal-content" (click)="$event.stopPropagation()">
     <app-game-form
       [gameToEdit]="gameToEdit"
-      (formSubmitted)="onFormClosed()"
+      (formSubmitted)="onFormSubmitted()"
       (formCancelled)="onFormClosed()">
     </app-game-form>
   </div>
