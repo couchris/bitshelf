@@ -5,6 +5,13 @@ import { Game, Platform } from './models';
 const SUPABASE_URL = 'https://mlyqzzgvhqhgzivfwchu.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_viTu9xTpTjwIYM-qRauUeA_5ot2NDXG';
 
+/**
+ * Facade Pattern — SupabaseService acts as a facade over the Supabase JS client.
+ * Hides the complexity of the underlying query builder API (chained .from().select().eq()
+ * calls, error tuple destructuring, type casting) behind simple methods
+ * like getGames(), addGame(), getOrCreatePlatform(), etc.
+ * Components interact only with this service and never touch the Supabase client directly.
+ */
 @Injectable({
   providedIn: 'root',
 })
