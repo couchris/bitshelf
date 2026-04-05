@@ -46,7 +46,7 @@ export class GameForm implements OnInit, OnChanges {
 
     const selectedIgdbGame = this.gameStateService.getSelectedGame();
     if (selectedIgdbGame) {
-      this.prefillFromIgdb(selectedIgdbGame);
+      await this.prefillFromIgdb(selectedIgdbGame);
       this.gameStateService.clearSelectedGame();
     }
 
@@ -59,8 +59,7 @@ export class GameForm implements OnInit, OnChanges {
     }
   }
 
-  private prefillFromIgdb(igdbGame: IgdbGame): void {
-    
+  private async prefillFromIgdb(igdbGame: IgdbGame): Promise<void> {
     const built = new GameBuilder()
       .setTitle(igdbGame.name)
       .setReleaseDate(igdbGame.first_release_date)
@@ -75,6 +74,15 @@ export class GameForm implements OnInit, OnChanges {
     this.imageUrl = built.image_url ?? '';
     this.played = built.played;
     this.condition = built.condition ?? '';
+
+    if (igdbGame.platforms?.length) {
+      const resolved = await Promise.all(
+        igdbGame.platforms.map(p => this.supabaseService.getOrCreatePlatform({ name: p.name }))
+      );
+      this.platforms = resolved;
+      this.platformId = resolved.length === 1 ? (resolved[0].id ?? null) : null;
+      this.cdr.detectChanges();
+    }
   }
 
   private populateFromGame(game: Game): void {

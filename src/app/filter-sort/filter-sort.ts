@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../supabase.service';
@@ -20,13 +20,18 @@ export class FilterSort implements OnInit {
   selectedSort = '';
   selectedPlatformId: number | null = null;
 
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(
+    private supabaseService: SupabaseService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async ngOnInit(): Promise<void> {
     try {
       this.platforms = await this.supabaseService.getPlatforms();
     } catch (err) {
       console.error('Failed to load platforms', err);
+    } finally {
+      this.cdr.detectChanges();
     }
   }
 
