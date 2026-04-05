@@ -26,6 +26,10 @@ export class FilterSort implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    await this.loadPlatforms();
+  }
+
+  async loadPlatforms(): Promise<void> {
     try {
       this.platforms = await this.supabaseService.getPlatforms();
     } catch (err) {

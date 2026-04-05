@@ -16,6 +16,7 @@ import { SortStrategy } from './sort-strategy';
 })
 export class AppComponent {
   @ViewChild(GameList) gameList!: GameList;
+  @ViewChild(FilterSort) filterSort!: FilterSort;
 
   showForm = false;
   gameToEdit: Game | null = null;
@@ -36,6 +37,7 @@ export class AppComponent {
     this.showForm = false;
     this.gameToEdit = null;
     this.gameList.loadGames();
+    this.filterSort.loadPlatforms();
   }
 
   onFormClosed(): void {
