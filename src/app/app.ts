@@ -22,6 +22,7 @@ export class AppComponent {
   gameToEdit: Game | null = null;
   activeSortStrategy: SortStrategy | null = null;
   activePlatformFilter: number | null = null;
+  activePlayedFilter: boolean | null = null;
 
   onGameSelected(): void {
     this.gameToEdit = null;
@@ -51,5 +52,9 @@ export class AppComponent {
 
   onPlatformFilterChanged(platformId: number | null): void {
     this.activePlatformFilter = platformId;
+  }
+
+  onPlayedFilterChanged(played: boolean | null): void {
+    this.activePlayedFilter = played;
   }
 }

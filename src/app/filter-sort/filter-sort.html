@@ -15,4 +15,13 @@
       <option *ngFor="let p of platforms" [ngValue]="p.id">{{ p.name }}</option>
     </select>
   </div>
+
+  <div class="control">
+    <label for="played">Status</label>
+    <select id="played" [(ngModel)]="selectedPlayed" (ngModelChange)="onPlayedChange()">
+      <option value="">All</option>
+      <option value="true">Played</option>
+      <option value="false">Unplayed</option>
+    </select>
+  </div>
 </div>

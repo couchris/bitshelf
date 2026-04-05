@@ -4,12 +4,14 @@
 
 <app-filter-sort
   (sortChanged)="onSortChanged($event)"
-  (platformFilterChanged)="onPlatformFilterChanged($event)">
+  (platformFilterChanged)="onPlatformFilterChanged($event)"
+  (playedFilterChanged)="onPlayedFilterChanged($event)">
 </app-filter-sort>
 
 <app-game-list
   [sortStrategy]="activeSortStrategy"
   [platformFilter]="activePlatformFilter"
+  [playedFilter]="activePlayedFilter"
   (editGame)="onEditGame($event)">
 </app-game-list>
 

@@ -14,6 +14,7 @@ import { SortStrategy } from '../sort-strategy';
 export class GameList implements OnInit {
   @Input() sortStrategy: SortStrategy | null = null;
   @Input() platformFilter: number | null = null;
+  @Input() playedFilter: boolean | null = null;
   @Output() editGame = new EventEmitter<Game>();
 
   games: Game[] = [];
@@ -33,6 +34,10 @@ export class GameList implements OnInit {
     let result = this.platformFilter
       ? this.games.filter(g => g.platform_id === this.platformFilter)
       : this.games;
+
+    if (this.playedFilter !== null) {
+      result = result.filter(g => g.played === this.playedFilter);
+    }
 
     return this.sortStrategy ? this.sortStrategy.sort(result) : result;
   }

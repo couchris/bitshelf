@@ -15,10 +15,12 @@ import { SortStrategy, SortByTitle, SortByReleaseDate } from '../sort-strategy';
 export class FilterSort implements OnInit {
   @Output() sortChanged = new EventEmitter<SortStrategy | null>();
   @Output() platformFilterChanged = new EventEmitter<number | null>();
+  @Output() playedFilterChanged = new EventEmitter<boolean | null>();
 
   platforms: Platform[] = [];
   selectedSort = '';
   selectedPlatformId: number | null = null;
+  selectedPlayed: string = '';
 
   constructor(
     private supabaseService: SupabaseService,
@@ -48,5 +50,10 @@ export class FilterSort implements OnInit {
 
   onPlatformChange(): void {
     this.platformFilterChanged.emit(this.selectedPlatformId);
+  }
+
+  onPlayedChange(): void {
+    if (this.selectedPlayed === '') this.playedFilterChanged.emit(null);
+    else this.playedFilterChanged.emit(this.selectedPlayed === 'true');
   }
 }
