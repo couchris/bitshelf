@@ -40,6 +40,18 @@ export class GameList implements OnInit {
     }
   }
 
+  async onDelete(id: number): Promise<void> {
+    try {
+      await this.supabaseService.deleteGame(id);
+      this.games = this.games.filter(g => g.id !== id);
+      this.cdr.detectChanges();
+    } catch (err) {
+      this.errorMessage = 'Failed to delete game.';
+      console.error(err);
+      this.cdr.detectChanges();
+    }
+  }
+
   onEdit(game: Game): void {
     this.editGame.emit(game);
   }

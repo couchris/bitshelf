@@ -61,6 +61,14 @@
         &:hover {
           background-color: #357abd;
         }
+
+        &.delete-btn {
+          background-color: #ff1900;
+
+          &:hover {
+            background-color: #ea6253;
+          }
+        }
       }
     }
   }
