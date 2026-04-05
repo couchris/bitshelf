@@ -1,0 +1,24 @@
+<div class="game-list">
+  <h2>My Collection</h2>
+
+  <p *ngIf="isLoading">Loading...</p>
+  <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+
+  <p *ngIf="!isLoading && games.length === 0">No games in your collection yet.</p>
+
+  <div class="games-grid" *ngIf="games.length > 0">
+    <div class="game-card" *ngFor="let game of games">
+      <img *ngIf="game.image_url" [src]="game.image_url" [alt]="game.title" />
+      <div class="game-info">
+        <h3>{{ game.title }}</h3>
+        <p *ngIf="game.genre">Genre: {{ game.genre }}</p>
+        <p *ngIf="game.release_date">Release Date: {{ game.release_date | date:'yyyy-MM-dd' }}</p>
+        <p>{{ game.played ? 'Played' : 'Unplayed' }}</p>
+        <p *ngIf="game.condition">Condition: {{ game.condition }}</p>
+      </div>
+      <div class="game-actions">
+        <button (click)="onEdit(game)">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>

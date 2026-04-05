@@ -1,0 +1,67 @@
+.game-list {
+  padding: 1rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .error-msg {
+    color: red;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .game-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 100%;
+      height: 275px;
+    }
+
+    .game-info {
+      padding: 0.75rem;
+      flex: 1;
+
+      h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+      }
+
+      p {
+        margin: 0.25rem 0;
+        font-size: 0.85rem;
+        color: #555;
+      }
+    }
+
+    .game-actions {
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        flex: 1;
+        padding: 0.4rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        background-color: #4a90e2;
+        color: white;
+        font-size: 0.85rem;
+
+        &:hover {
+          background-color: #357abd;
+        }
+      }
+    }
+  }
+}

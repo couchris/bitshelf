@@ -1,17 +1,4 @@
 <h1>My BitShelf Collection</h1>
 
 <app-game-search></app-game-search>
-
-<div *ngIf="games.length === 0">
-  <p>No games found in the collection.</p>
-</div>
-
-<div class="game-grid" *ngIf="games.length > 0">
-  <div class="game-card" *ngFor="let game of games">
-    <img [src]="game.image_url" alt="{{ game.title }}" class="game-image">
-    <h3>{{ game.title }}</h3>
-    <p>Platform ID: {{ game.platform_id }}</p>
-    <p>Played: {{ game.played ? 'Yes' : 'No' }}</p>
-    <p>Condition: {{ game.condition }}</p>
-  </div>
-</div>
+<app-game-list></app-game-list>

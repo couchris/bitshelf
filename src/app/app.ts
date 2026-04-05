@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from './supabase.service';
 import { GameSearch } from './game-search/game-search';
+import { GameList } from './game-list/game-list';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, GameSearch],
+  imports: [CommonModule, GameSearch, GameList],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
