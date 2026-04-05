@@ -3,7 +3,7 @@
 
   <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
 
-  <form (ngSubmit)="onCancel()">
+  <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="title">Title *</label>
       <input id="title" type="text" [(ngModel)]="title" name="title" required />

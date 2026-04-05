@@ -87,7 +87,55 @@ export class GameForm implements OnInit, OnChanges {
     this.imageUrl = game.image_url ?? '';
   }
 
+  async onSubmit(): Promise<void> {
+    if (!this.title || this.platformId === null) {
+      this.errorMessage = 'Title and platform are required.';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = '';
+
+    const game: Omit<Game, 'id'> = {
+      title: this.title,
+      platform_id: this.platformId,
+      genre: this.genre,
+      release_date: this.releaseDate,
+      played: this.played,
+      condition: this.condition,
+      image_url: this.imageUrl
+    };
+
+    try {
+      if (this.gameToEdit?.id) {
+        await this.supabaseService.updateGame(this.gameToEdit.id, game);
+      } else {
+        await this.supabaseService.addGame(game);
+      }
+
+      this.formSubmitted.emit();
+      this.resetForm();
+    } catch (err) {
+      this.errorMessage = 'Failed to save game. Please try again.';
+      console.error(err);
+    } finally {
+      this.isSubmitting = false;
+      this.cdr.detectChanges();
+    }
+  }
+
   onCancel(): void {
     this.formCancelled.emit();
+  }
+
+  private resetForm(): void {
+    this.title = '';
+    this.platformId = null;
+    this.genre = '';
+    this.releaseDate = '';
+    this.played = false;
+    this.condition = '';
+    this.imageUrl = '';
   }
 }
