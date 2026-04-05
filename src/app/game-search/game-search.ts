@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule, SlicePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IgdbService, IgdbGame } from '../igdb.service';
-import { SupabaseService } from '../supabase.service';
+import { GameStateService } from '../game-state.service';
 
 @Component({
   selector: 'app-game-search',
@@ -11,16 +11,16 @@ import { SupabaseService } from '../supabase.service';
   styleUrl: './game-search.scss',
 })
 export class GameSearch {
+  @Output() gameSelected = new EventEmitter<void>();
+
   searchTerm = '';
   results: IgdbGame[] = [];
   isSearching = false;
-  isAdding = false;
-  successMessage = '';
   errorMessage = '';
 
   constructor(
     private igdbService: IgdbService,
-    private supabaseService: SupabaseService,
+    private gameStateService: GameStateService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -29,7 +29,6 @@ export class GameSearch {
   
     this.isSearching = true;
     this.results = [];
-    this.successMessage = '';
     this.errorMessage = '';
   
     try {
@@ -43,6 +42,11 @@ export class GameSearch {
       console.error(err);
       this.cdr.detectChanges();
     }
+  }
+
+  addToCollection(game: IgdbGame): void {
+    this.gameStateService.setSelectedGame(game);
+    this.gameSelected.emit();
   }
 
   getCoverUrl(url: string | undefined): string {

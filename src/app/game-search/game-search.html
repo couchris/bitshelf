@@ -13,8 +13,7 @@
       </button>
     </div>
   
-    <p class="success-msg" *ngIf="successMessage">✅ {{ successMessage }}</p>
-    <p class="error-msg" *ngIf="errorMessage">❌ {{ errorMessage }}</p>
+    <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
   
     <div class="results-grid" *ngIf="results.length > 0">
       <div class="result-card" *ngFor="let game of results">
@@ -27,6 +26,7 @@
           <p class="summary" *ngIf="game.summary">
             {{ game.summary.length > 120 ? (game.summary | slice:0:120) + '...' : game.summary }}
           </p>
+          <button (click)="addToCollection(game)">Add to Collection</button>
         </div>
       </div>
     </div>

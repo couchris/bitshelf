@@ -1,4 +1,14 @@
 <h1>My BitShelf Collection</h1>
 
-<app-game-search></app-game-search>
-<app-game-list></app-game-list>
+<app-game-search (gameSelected)="onGameSelected()"></app-game-search>
+<app-game-list (editGame)="onEditGame($event)"></app-game-list>
+
+<div class="modal-overlay" *ngIf="showForm" (click)="onFormClosed()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <app-game-form
+      [gameToEdit]="gameToEdit"
+      (formSubmitted)="onFormClosed()"
+      (formCancelled)="onFormClosed()">
+    </app-game-form>
+  </div>
+</div>

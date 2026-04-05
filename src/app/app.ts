@@ -1,27 +1,33 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SupabaseService } from './supabase.service';
 import { GameSearch } from './game-search/game-search';
 import { GameList } from './game-list/game-list';
+import { GameForm } from './game-form/game-form';
+import { Game } from './models';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, GameSearch, GameList],
+  imports: [CommonModule, GameSearch, GameList, GameForm],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
-export class AppComponent implements OnInit {
-  games: any[] = [];
+export class AppComponent {
+  showForm = false;
+  gameToEdit: Game | null = null;
 
-  constructor(private supabaseService: SupabaseService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  onGameSelected(): void {
+    this.gameToEdit = null;
+    this.showForm = true;
+  }
 
-  async ngOnInit() {
-    this.games = await this.supabaseService.getGames();
-    console.log('Games in ngOnInit:', this.games);
+  onEditGame(game: Game): void {
+    this.gameToEdit = game;
+    this.showForm = true;
+  }
 
-    this.cdr.detectChanges();
+  onFormClosed(): void {
+    this.showForm = false;
+    this.gameToEdit = null;
   }
 }
