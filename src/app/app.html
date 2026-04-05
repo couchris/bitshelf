@@ -1,7 +1,17 @@
 <h1>My BitShelf Collection</h1>
 
 <app-game-search (gameSelected)="onGameSelected()"></app-game-search>
-<app-game-list (editGame)="onEditGame($event)"></app-game-list>
+
+<app-filter-sort
+  (sortChanged)="onSortChanged($event)"
+  (platformFilterChanged)="onPlatformFilterChanged($event)">
+</app-filter-sort>
+
+<app-game-list
+  [sortStrategy]="activeSortStrategy"
+  [platformFilter]="activePlatformFilter"
+  (editGame)="onEditGame($event)">
+</app-game-list>
 
 <div class="modal-overlay" *ngIf="showForm" (click)="onFormClosed()">
   <div class="modal-content" (click)="$event.stopPropagation()">

@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../supabase.service';
 import { Game } from '../models';
+import { SortStrategy } from '../sort-strategy';
 
 @Component({
   selector: 'app-game-list',
@@ -11,6 +12,8 @@ import { Game } from '../models';
   styleUrl: './game-list.scss'
 })
 export class GameList implements OnInit {
+  @Input() sortStrategy: SortStrategy | null = null;
+  @Input() platformFilter: number | null = null;
   @Output() editGame = new EventEmitter<Game>();
 
   games: Game[] = [];
@@ -24,6 +27,14 @@ export class GameList implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.loadGames();
+  }
+
+  get displayedGames(): Game[] {
+    let result = this.platformFilter
+      ? this.games.filter(g => g.platform_id === this.platformFilter)
+      : this.games;
+
+    return this.sortStrategy ? this.sortStrategy.sort(result) : result;
   }
 
   async loadGames(): Promise<void> {

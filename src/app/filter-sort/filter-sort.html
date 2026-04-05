@@ -1,0 +1,18 @@
+<div class="filter-sort">
+  <div class="control">
+    <label for="sort">Sort by</label>
+    <select id="sort" [(ngModel)]="selectedSort" (ngModelChange)="onSortChange()">
+      <option value="">Default</option>
+      <option value="title">Title A–Z</option>
+      <option value="release_date">Release Date</option>
+    </select>
+  </div>
+
+  <div class="control">
+    <label for="platform">Platform</label>
+    <select id="platform" [(ngModel)]="selectedPlatformId" (ngModelChange)="onPlatformChange()">
+      <option [ngValue]="null">All Platforms</option>
+      <option *ngFor="let p of platforms" [ngValue]="p.id">{{ p.name }}</option>
+    </select>
+  </div>
+</div>

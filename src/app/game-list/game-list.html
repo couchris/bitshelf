@@ -4,10 +4,10 @@
   <p *ngIf="isLoading">Loading...</p>
   <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
 
-  <p *ngIf="!isLoading && games.length === 0">No games in your collection yet.</p>
+  <p *ngIf="!isLoading && displayedGames.length === 0">No games in your collection yet.</p>
 
-  <div class="games-grid" *ngIf="games.length > 0">
-    <div class="game-card" *ngFor="let game of games">
+  <div class="games-grid" *ngIf="displayedGames.length > 0">
+    <div class="game-card" *ngFor="let game of displayedGames">
       <img *ngIf="game.image_url" [src]="game.image_url" [alt]="game.title" />
       <div class="game-info">
         <h3>{{ game.title }}</h3>
