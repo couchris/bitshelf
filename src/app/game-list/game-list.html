@@ -1,6 +1,12 @@
 <div class="game-list">
   <h2>My Collection</h2>
 
+  <app-filter-sort
+    (sortChanged)="onSortChanged($event)"
+    (platformFilterChanged)="onPlatformFilterChanged($event)"
+    (playedFilterChanged)="onPlayedFilterChanged($event)">
+  </app-filter-sort>
+
   <p *ngIf="isLoading">Loading...</p>
   <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
 

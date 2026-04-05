@@ -1,28 +1,32 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../supabase.service';
+import { GameStateService } from '../game-state.service';
 import { Game } from '../models';
 import { SortStrategy } from '../sort-strategy';
+import { FilterSort } from '../filter-sort/filter-sort';
 
 @Component({
   selector: 'app-game-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FilterSort],
   templateUrl: './game-list.html',
   styleUrl: './game-list.scss'
 })
 export class GameList implements OnInit {
-  @Input() sortStrategy: SortStrategy | null = null;
-  @Input() platformFilter: number | null = null;
-  @Input() playedFilter: boolean | null = null;
-  @Output() editGame = new EventEmitter<Game>();
+  @ViewChild(FilterSort) filterSort!: FilterSort;
 
   games: Game[] = [];
   isLoading = false;
   errorMessage = '';
 
+  private sortStrategy: SortStrategy | null = null;
+  private platformFilter: number | null = null;
+  private playedFilter: boolean | null = null;
+
   constructor(
     private supabaseService: SupabaseService,
+    private gameStateService: GameStateService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -54,6 +58,7 @@ export class GameList implements OnInit {
       this.isLoading = false;
       this.cdr.detectChanges();
     }
+    this.filterSort?.loadPlatforms();
   }
 
   async onDelete(id: number): Promise<void> {
@@ -69,6 +74,18 @@ export class GameList implements OnInit {
   }
 
   onEdit(game: Game): void {
-    this.editGame.emit(game);
+    this.gameStateService.editGame(game);
+  }
+
+  onSortChanged(strategy: SortStrategy | null): void {
+    this.sortStrategy = strategy;
+  }
+
+  onPlatformFilterChanged(platformId: number | null): void {
+    this.platformFilter = platformId;
+  }
+
+  onPlayedFilterChanged(played: boolean | null): void {
+    this.playedFilter = played;
   }
 }
